@@ -1,0 +1,20 @@
+:root {
+    --darkColor: #00008b;
+    --lightMainColor: #fff;
+    --bgColorMain: #ddf;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 320px;
+}
+
