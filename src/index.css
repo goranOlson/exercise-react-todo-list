@@ -18,3 +18,9 @@ body {
     min-width: 320px;
 }
 
+.block {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 8px;
+
+}

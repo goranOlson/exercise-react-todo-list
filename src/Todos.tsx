@@ -17,18 +17,24 @@ export function CreateTodo(props: INewPost) {
         console.log('Submit: ' + todoText + ', ' + username);
 
         const todoPost: IData = {
+            id: 0,
             todoText,
             username
         }
+        
         props.addPost(todoPost);
     }
 
+    
+
 
     return <>
-            <form onSubmit={handleOnSubmit}>
-                <div className="adding">
+        <form onSubmit={handleOnSubmit}>
+            <div className="block adding">
                     <input type="text" placeholder="Todo text"
-                        id="todoText" onChange={(e) => setTodoText(e.target.value)} value={todoText}></input>
+                        id="todoText"
+                        onChange={(e) => setTodoText(e.target.value)}
+                        value={todoText}></input>
                     <div className='row-bottom'>
                         <input type="text" placeholder="Username" 
                             id="user"
@@ -36,7 +42,8 @@ export function CreateTodo(props: INewPost) {
                             onChange={(e) => setUsername(e.target.value)}></input>
                         <button type='submit'>Create</button>
                     </div>
-                </div>
-            </form>
+                
+            </div>
+        </form>
     </>
 }

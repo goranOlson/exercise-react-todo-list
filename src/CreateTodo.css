@@ -2,10 +2,15 @@
 
 .todo-container .adding {
     display: grid;
+    
     row-gap: 10px;
     /* padding: 20px 30px; */
     padding-block: 20px;
     background-color: var(--bgColorMain);
+}
+
+.todo-container .adding input {
+    width: 100%;
 }
 
 .todo-container .adding .row-bottom {
