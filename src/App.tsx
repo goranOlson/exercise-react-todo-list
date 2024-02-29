@@ -1,14 +1,13 @@
 import './App.css'
-import { CreateTodo } from './Todos';
+import { TodoForm } from './TodoForm';
 import { TodoList } from './TodoList';
 import { useState } from 'react';
-
-
 
 export interface IData {
   id: number;
   todoText: string;
   username: string;
+  timestamp?: number;
   date?: string;
   done?: boolean | false;
 }
@@ -18,27 +17,29 @@ let nextId = 0;  // Key id
 
 export function App() {
   const initData: IData[] = [
-    {id: 100, todoText: "First", username: "Nisse", date: "28/2-24 15:01"},
-    {id: 101, todoText: "Second", username: "Mulle", date: "28/2-24 15:02"}
+    {id: 100, todoText: "First", username: "Bertil", timestamp: 1709216334173,  date: "28/2-24 15:01"},
+    {id: 101, todoText: "Second", username: "Åke", timestamp: 1709216334999, date: "28/2-24 15:02"}
   ];
 
-  const [todoList, setTodoList] = useState<IData[]>(initData);  // []
+  const [todoList, setTodoList] = useState<IData[]>([]);  // [], initData
 
   const addPost = (todoPost: IData) => {
-    const next: IData = {
+    const time = new Date();
+
+    const newPost: IData = {
       id: nextId++,
       todoText: todoPost.todoText,
       username: todoPost.username,
+      timestamp: time.valueOf(),
       date: today()  // "29/2-24 09:14"
     };
-
-    console.log('next: ', next);
+    // console.log('next: ', next);
     
-    setTodoList([next, ...todoList]);
+    setTodoList([newPost, ...todoList]);
   }
 
   const removePost = (id: number) => {
-    console.log('--> removePost()...' + id);
+    // console.log('--> removePost()...' + id);
 
     setTodoList(
       todoList.filter( (item) => {
@@ -60,7 +61,7 @@ export function App() {
       })
     );
 
-    return 1;
+    // return 1;
   }
 
   const moveUp = (id: number) => {
@@ -94,7 +95,60 @@ export function App() {
     }    
   }
 
-  // Detta måste göras innan eftermiddagen är över
+  const sortPosts = (sort: string) => {
+    let list;
+
+    if (sort === 'author') {
+        list = todoList.sort((a, b) => {
+            let i = 0;
+
+            if (a.username > b.username) {
+              i = 1;
+            }
+            else if (a.username < b.username) {
+              i = -1;
+            }
+
+            return i;
+        });
+    }
+    else if (sort === 'latest') {
+        list = todoList.sort((a, b) => {
+            let i = 0;
+
+            if (Number(a.timestamp) < Number(b.timestamp)) {
+              i = 1;
+            }
+            else if (Number(a.timestamp) > Number(b.timestamp)) {
+              i = -1;
+            }
+
+            return i;
+        });
+    }
+    else {
+      // Sort by id
+      list = todoList.sort((a, b) => {
+        let i = 0;
+
+        if (a.id > b.id) {
+          i = 1;
+        }
+        else if (a.id < b.id) {
+          i = -1;
+        }
+
+        return i;
+    });
+    }
+
+    if (list) {
+      
+      // list = [...list];  // Generate new 'list'
+      // console.log('>> list - ' + sort, list);
+      setTodoList( [...list] );
+    }
+  }
 
   const today = () => {
     var d = new Date();
@@ -110,14 +164,14 @@ export function App() {
     <>
       <article className="todo-container">
         <h1>Todo List</h1>
-
-        <CreateTodo addPost={addPost} />
+        <TodoForm addPost={addPost} />
         <TodoList 
             todoList={todoList} 
             removePost={removePost} 
             donePost={donePost} 
             moveUp={moveUp}
             moveDown={moveDown}
+            sortPosts={sortPosts}
         />
       </article>
     </>

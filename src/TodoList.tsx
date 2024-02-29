@@ -7,6 +7,7 @@ export interface ITodoListProps {
     donePost: (id: number) => void;
     moveUp: (id: number) => void;
     moveDown: (id: number) => void;
+    sortPosts: (sort: string) => void;
 }
 
 export function TodoList(props: ITodoListProps): JSX.Element {
@@ -28,9 +29,24 @@ export function TodoList(props: ITodoListProps): JSX.Element {
         props.moveDown(parseInt(event.currentTarget.id));
     }
 
+    const handleSort: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        // console.log('sortOrder: ' + event.target.value);
+        props.sortPosts(event.target.value);
+        // document.activeElement.blur();  // Remove focus
+    }
+
+
     return (
         <section className='block todo-list'>
-            <h2>Todos:</h2>
+            <header className='header'>
+                <h2>Todos:</h2>
+                <select name="sortOrder" id="sortOrder" onChange={handleSort}>
+                    {/* <option value="">Sort order</option> */}
+                    <option value="author">author</option>
+                    <option value="latest" selected>latest</option>
+                </select>
+            </header>
+
             <section className='todo-content'>
                 {list.map((item) => {
                     const stringId: string = item.id.toString();  // Set id on controllers

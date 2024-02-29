@@ -6,10 +6,25 @@
 
 }
 
+.todo-list .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--darkColor);
+}
+
 .todo-list h2 {
+    width: max-content;
     font-size: 18px;
     color: var(--darkColor);
-    border-bottom: 1px solid var(--darkColor);
+    /* border-bottom: 1px solid var(--darkColor); */
+}
+
+.todo-list select {
+    border-color: navy;
+    background: #fff;
+    border-radius: 5px;
+    
 }
 
 .todo-list .todo-content {
