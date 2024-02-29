@@ -29,9 +29,11 @@ export function App() {
       id: nextId++,
       todoText: todoPost.todoText,
       username: todoPost.username,
-      date: new Date().toLocaleString().substring(0, 16) // 
+      date: today()  // "29/2-24 09:14"
     };
-  
+
+    console.log('next: ', next);
+    
     setTodoList([next, ...todoList]);
   }
 
@@ -91,6 +93,18 @@ export function App() {
       setTodoList(newList);
     }    
   }
+
+  // Detta måste göras innan eftermiddagen är över
+
+  const today = () => {
+    var d = new Date();
+
+    var datestring = d.getDate()  + "/" + (d.getMonth()+1) + "-" + d.getFullYear().toString().substring(2) + " " +
+    d.getHours() + ":" + d.getMinutes();
+
+    return datestring;  // "29/2-24 09:14"
+  }
+
 
   return (
     <>

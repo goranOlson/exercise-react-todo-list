@@ -38,13 +38,28 @@
 
 .todo-list .todo-content .todo-item .info {
     display: flex;
+    display: grid;
+    grid-template-columns: 1fr max-content;
     justify-content: space-between;
+    padding-top: 4px;
+    border-top: 1px solid #aaf;
+    color: black;
+    font-size: 15px;
+}
+
+.todo-list .todo-content .todo-item .info .data {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: max-content max-content;
+    row-gap: 2px;
+    padding-right: 8px;
 }
 
 .todo-list .todo-content .todo-item .info .controller {
     display: flex;
     column-gap: 0.5rem;
     align-items: center;
+    color: var(--darkColor);
 }
 
 .todo-list .todo-content .todo-item.done {

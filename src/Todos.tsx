@@ -14,29 +14,31 @@ export function CreateTodo(props: INewPost) {
 
     const handleOnSubmit:React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        console.log('Submit: ' + todoText + ', ' + username);
+        // console.log('Submit: ' + todoText + ', ' + username);
 
-        const todoPost: IData = {
-            id: 0,
-            todoText,
-            username
+        if (todoText != '') {
+            const todoPost: IData = {
+                id: 0,
+                todoText,
+                username
+            }
+
+            setTodoText("");
+            setUsername("");
+            props.addPost(todoPost);
         }
-        
-        props.addPost(todoPost);
     }
 
     
-
-
     return <>
         <form onSubmit={handleOnSubmit}>
             <div className="block adding">
-                    <input type="text" placeholder="Todo text"
+                    <input type="text" placeholder="Todo text" autoComplete='off'
                         id="todoText"
                         onChange={(e) => setTodoText(e.target.value)}
                         value={todoText}></input>
                     <div className='row-bottom'>
-                        <input type="text" placeholder="Username" 
+                        <input type="text" placeholder="Username"
                             id="user"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}></input>
