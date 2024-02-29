@@ -1,13 +1,13 @@
 
 import { useState } from 'react';
-import './CreateTodo.css'
+import './TodoForm.css'
 import { IData } from './App';
 
 interface INewPost {
     addPost: (todoPost: IData) => void;
 }
 
-export function CreateTodo(props: INewPost) {
+export function TodoForm(props: INewPost) {
 
     const [todoText, setTodoText] = useState("");
     const [username, setUsername] = useState("");
