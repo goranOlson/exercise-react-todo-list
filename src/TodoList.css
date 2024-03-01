@@ -48,7 +48,6 @@
 
 .todo-list .todo-content .todo-item .todoText {
     font-size: 18px;
-
 }
 
 .todo-list .todo-content .todo-item .info {
@@ -72,7 +71,7 @@
 
 .todo-list .todo-content .todo-item .info .controller {
     display: flex;
-    column-gap: 0.5rem;
+    column-gap: 0.8rem;
     align-items: center;
     color: var(--darkColor);
 }

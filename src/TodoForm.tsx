@@ -33,17 +33,17 @@ export function TodoForm(props: INewPost) {
     return <>
         <form onSubmit={handleOnSubmit}>
             <div className="block adding">
-                    <input type="text" placeholder="Todo text" autoComplete='off'
-                        id="todoText"
-                        onChange={(e) => setTodoText(e.target.value)}
-                        value={todoText}></input>
-                    <div className='row-bottom'>
-                        <input type="text" placeholder="Username"
-                            id="user"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}></input>
-                        <button type='submit'>Create</button>
-                    </div>
+                <input type="text" placeholder="Todo text" autoComplete='off'
+                    id="todoText"
+                    onChange={(e) => setTodoText(e.target.value)}
+                    value={todoText}></input>
+                <div className='row-bottom'>
+                    <input type="text" placeholder="Username"
+                        id="user"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}></input>
+                    <button type='submit'>Create</button>
+                </div>
                 
             </div>
         </form>

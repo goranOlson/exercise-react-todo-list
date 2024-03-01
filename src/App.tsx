@@ -1,6 +1,7 @@
 import './App.css'
 import { TodoForm } from './TodoForm';
 import { TodoList } from './TodoList';
+
 import { useState } from 'react';
 
 export interface IData {
@@ -10,6 +11,7 @@ export interface IData {
   timestamp?: number;
   date?: string;
   done?: boolean | false;
+  edit?: boolean;
 }
 
 let nextId = 0;  // Key id
@@ -21,7 +23,7 @@ export function App() {
     {id: 101, todoText: "Second", username: "Åke", timestamp: 1709216334999, date: "28/2-24 15:02"}
   ];
 
-  const [todoList, setTodoList] = useState<IData[]>([]);  // [], initData
+  const [todoList, setTodoList] = useState<IData[]>(initData);  // [], initData
 
   const addPost = (todoPost: IData) => {
     const time = new Date();
@@ -38,17 +40,6 @@ export function App() {
     setTodoList([newPost, ...todoList]);
   }
 
-  const removePost = (id: number) => {
-    // console.log('--> removePost()...' + id);
-
-    setTodoList(
-      todoList.filter( (item) => {
-        return item.id != id
-      })
-    );
-    // console.log('todoList', todoList);
-  }
-
   const donePost = (id: number) => {
     // Toggle done-flag for css
     setTodoList(
@@ -62,6 +53,21 @@ export function App() {
     );
 
     // return 1;
+  }
+
+  const moveDown = (id: number) => {
+    const index = todoList.map( t => t.id).indexOf(id);
+    
+    if (index < todoList.length) {
+      const post = todoList.splice(index, 1);  // Extract post
+
+      const newList = [
+        ...todoList.slice(0, index + 1),
+        post[0],
+        ...todoList.splice(index + 1)
+      ];
+      setTodoList(newList);
+    }    
   }
 
   const moveUp = (id: number) => {
@@ -80,19 +86,14 @@ export function App() {
     }
   }
 
-  const moveDown = (id: number) => {
-    const index = todoList.map( t => t.id).indexOf(id);
-    
-    if (index < todoList.length) {
-      const post = todoList.splice(index, 1);  // Extract post
-
-      const newList = [
-        ...todoList.slice(0, index + 1),
-        post[0],
-        ...todoList.splice(index + 1)
-      ];
-      setTodoList(newList);
-    }    
+  const removePost = (id: number) => {
+    // console.log('--> removePost()...' + id);
+    setTodoList(
+      todoList.filter( (item) => {
+        return item.id != id
+      })
+    );
+    // console.log('todoList', todoList);
   }
 
   const sortPosts = (sort: string) => {
@@ -159,6 +160,30 @@ export function App() {
     return datestring;  // "29/2-24 09:14"
   }
 
+  const editPost = (id: number) => {
+    console.log(`--> updatePost() ${id}`);
+
+    setTodoList(
+      todoList.map( (item) => {
+        console.log(item.id);
+        if (item.id === id) {
+          item.edit = true;
+          console.log('edit: ' + item.edit);
+        } 
+        else {
+          item.edit = false;
+        }
+        return item;
+      })
+    );
+
+    const post: IData  = todoList.filter((t) => {
+      return t.id = id
+    })[0];
+    console.log('# post: ', post);
+
+    
+  }
 
   return (
     <>
@@ -172,6 +197,7 @@ export function App() {
             moveUp={moveUp}
             moveDown={moveDown}
             sortPosts={sortPosts}
+            editPost={editPost}
         />
       </article>
     </>
