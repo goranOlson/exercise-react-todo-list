@@ -1,0 +1,26 @@
+.todo-container .edit-container {
+    
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    padding-top: 4px;
+
+    /* background-color: #aaa; */
+}
+
+.todo-container .edit-container input {
+    width: 100%;
+}
+
+.todo-container .edit-container .button-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo-container .btnCancel {
+    order: 1;
+}
+
+.todo-container .btnSave {
+    order: 2;
+}

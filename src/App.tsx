@@ -14,8 +14,12 @@ export interface IData {
   edit?: boolean;
 }
 
-let nextId = 0;  // Key id
+export interface IUpdate {
+  id: number;
+  text: string;
+}
 
+let nextId = 0;  // Unique key id
 
 export function App() {
   const initData: IData[] = [
@@ -25,6 +29,7 @@ export function App() {
 
   const [todoList, setTodoList] = useState<IData[]>(initData);  // [], initData
 
+
   const addPost = (todoPost: IData) => {
     const time = new Date();
 
@@ -33,33 +38,28 @@ export function App() {
       todoText: todoPost.todoText,
       username: todoPost.username,
       timestamp: time.valueOf(),
-      date: today()  // "29/2-24 09:14"
+      date: getDateTime()  // "29/2-24 09:14"
     };
-    // console.log('next: ', next);
-    
+
     setTodoList([newPost, ...todoList]);
   }
 
-  const donePost = (id: number) => {
-    // Toggle done-flag for css
+  const donePost = (id: number) => {  // Toggle done-flag for css
     setTodoList(
-      todoList.filter( (item) => {
+      todoList.map( (item) => {
         if (item.id === id) {
-          console.log('done: ' + item.done);
           item.done = !item.done;
         }
         return item;
       })
     );
-
-    // return 1;
   }
 
   const moveDown = (id: number) => {
     const index = todoList.map( t => t.id).indexOf(id);
     
     if (index < todoList.length) {
-      const post = todoList.splice(index, 1);  // Extract post
+      const post = todoList.splice(index, 1);  // Extract the post
 
       const newList = [
         ...todoList.slice(0, index + 1),
@@ -87,71 +87,125 @@ export function App() {
   }
 
   const removePost = (id: number) => {
-    // console.log('--> removePost()...' + id);
     setTodoList(
       todoList.filter( (item) => {
         return item.id != id
       })
     );
-    // console.log('todoList', todoList);
   }
 
-  const sortPosts = (sort: string) => {
+  const editPost = (id: number) => {
+    setTodoList(
+      todoList.map( (item) => { 
+        if (item.id === id) {
+          item.edit = true;
+        } else {
+          item.edit = false;
+        }
+        return item;
+      })
+    );
+  }
+
+  const editSave = (changedPost: IUpdate) => {
+    setTodoList(
+      todoList.map( (t) => {
+        if (t.id === changedPost.id) {
+          t.todoText = changedPost.text;
+          t.edit = false;
+        }
+        return t;
+      })
+    );
+
+
+  }
+
+  const editCancel = (id: number) => {
+    setTodoList(
+      todoList.map( (t) => {
+        if (t.id === id) {
+          t.edit = false;
+        }
+        return t;
+      })
+    );
+  }
+
+   //--- Sorting ---//
+   const sortTodoList = (sort: string) => {
     let list;
 
-    if (sort === 'author') {
-        list = todoList.sort((a, b) => {
-            let i = 0;
-
-            if (a.username > b.username) {
-              i = 1;
-            }
-            else if (a.username < b.username) {
-              i = -1;
-            }
-
-            return i;
-        });
-    }
-    else if (sort === 'latest') {
-        list = todoList.sort((a, b) => {
-            let i = 0;
-
-            if (Number(a.timestamp) < Number(b.timestamp)) {
-              i = 1;
-            }
-            else if (Number(a.timestamp) > Number(b.timestamp)) {
-              i = -1;
-            }
-
-            return i;
-        });
-    }
-    else {
-      // Sort by id
-      list = todoList.sort((a, b) => {
-        let i = 0;
-
-        if (a.id > b.id) {
-          i = 1;
-        }
-        else if (a.id < b.id) {
-          i = -1;
-        }
-
-        return i;
-    });
+    switch (sort) {
+      case 'author':
+        list = sortByAuthor();
+        break;
+      case 'newest':
+        list = sortByNewest();
+        break;
+      
+      default:
+        list = sortById();
+        break;
     }
 
     if (list) {
-      
-      // list = [...list];  // Generate new 'list'
-      // console.log('>> list - ' + sort, list);
-      setTodoList( [...list] );
+      setTodoList([...list]);
     }
   }
 
-  const today = () => {
+  const sortByAuthor = () => {
+
+    const list = todoList.sort((a, b) => {
+      let i = 0;
+
+      if (a.username > b.username) {
+        i = 1;
+      }
+      else if (a.username < b.username) {
+        i = -1;
+      }
+      return i;
+    });
+
+    return list;
+  }
+
+  const sortById = () => {
+
+    const list = todoList.sort((a, b) => {
+      let i = 0;
+
+      if (a.id > b.id) {
+        i = 1;
+      }
+      else if (a.id < b.id) {
+        i = -1;
+      }
+      return i;
+    });
+
+    return list;
+  }
+
+  const sortByNewest = () => {
+    const list = todoList.sort((a, b) => {
+      let i = 0;
+
+      if (Number(a.timestamp) < Number(b.timestamp)) {
+        i = 1;
+      }
+      else if (Number(a.timestamp) > Number(b.timestamp)) {
+        i = -1;
+      }
+      return i;
+    });
+
+    return list;
+  }
+
+  //--- Extra functions ---//
+  const getDateTime = () => {
     var d = new Date();
 
     var datestring = d.getDate()  + "/" + (d.getMonth()+1) + "-" + d.getFullYear().toString().substring(2) + " " +
@@ -160,31 +214,16 @@ export function App() {
     return datestring;  // "29/2-24 09:14"
   }
 
-  const editPost = (id: number) => {
-    console.log(`--> updatePost() ${id}`);
+  /* const isEditing = () => {  // NOT IN USE...
+    const isEditing = (todoList.filter( t => t.edit === true).length > 0) ? true : false;
 
-    setTodoList(
-      todoList.map( (item) => {
-        console.log(item.id);
-        if (item.id === id) {
-          item.edit = true;
-          console.log('edit: ' + item.edit);
-        } 
-        else {
-          item.edit = false;
-        }
-        return item;
-      })
-    );
-
-    const post: IData  = todoList.filter((t) => {
-      return t.id = id
-    })[0];
-    console.log('# post: ', post);
-
-    
+    console.log('--> isEditing() => ' + isEditing);
+    return isEditing;
   }
+  */
 
+
+  
   return (
     <>
       <article className="todo-container">
@@ -196,8 +235,10 @@ export function App() {
             donePost={donePost} 
             moveUp={moveUp}
             moveDown={moveDown}
-            sortPosts={sortPosts}
+            sortPosts={sortTodoList}
             editPost={editPost}
+            editSave={editSave}
+            editCancel={editCancel}
         />
       </article>
     </>
