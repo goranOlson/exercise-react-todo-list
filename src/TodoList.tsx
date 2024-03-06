@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { IData, IUpdate } from './App'
 import { EditForm } from './EditForm';
 import './TodoList.css'
@@ -17,20 +18,26 @@ export interface ITodoListProps {
 export function TodoList(props: ITodoListProps): JSX.Element {
     const list = props.todoList;
 
+    const [sorting, setSorting] = useState("");  // newest
+
     const handleSort: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         props.sortPosts(event.target.value);
         // document.activeElement.blur();  // Remove focus...?
+
+        setSorting(event.target.value);
     }
 
     return (
         <section className='block todo-list'>
             <header className='header'>
                 <h2>Todos:</h2>
-                <select name="sortOrder" id="sortOrder" onChange={handleSort}>
-                    {/* <option value="">Sort order</option> */}
-                    <option value="author">author</option>
-                    <option value="newest" selected>newest</option>
-                </select>
+                {list.length > 0 ?
+                    <select name="sortOrder" id="sortOrder" onChange={handleSort} value={sorting}>
+                        <option value="">Sort order</option>
+                        <option value="author">author</option>
+                        <option value="newest" selected>newest</option>
+                    </select>
+                    : "" }
             </header>
 
             <section className='todo-content'>
@@ -40,9 +47,10 @@ export function TodoList(props: ITodoListProps): JSX.Element {
                     return (
                         <div className={classesItem} key={item.id}>
                             <div className='todoText'> 
-                            { item.edit 
-                                ? <EditForm text={item.todoText} id={item.id}  editSave={props.editSave} editCancel={props.editCancel} /> 
-                                : item.todoText}</div>
+                                { item.edit
+                                    ? <EditForm text={item.todoText} id={item.id}  editSave={props.editSave} editCancel={props.editCancel} />
+                                    : item.todoText }
+                            </div>
                                 
                             <div className='info'>
                                 <div className='data'>

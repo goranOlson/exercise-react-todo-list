@@ -27,7 +27,7 @@ export function App() {
     {id: 101, todoText: "Second", username: "Åke", timestamp: 1709216334999, date: "28/2-24 15:02"}
   ];
 
-  const [todoList, setTodoList] = useState<IData[]>(initData);  // [], initData
+  const [todoList, setTodoList] = useState<IData[]>([]);  // [], initData
 
 
   const addPost = (todoPost: IData) => {
@@ -213,16 +213,6 @@ export function App() {
 
     return datestring;  // "29/2-24 09:14"
   }
-
-  /* const isEditing = () => {  // NOT IN USE...
-    const isEditing = (todoList.filter( t => t.edit === true).length > 0) ? true : false;
-
-    console.log('--> isEditing() => ' + isEditing);
-    return isEditing;
-  }
-  */
-
-
   
   return (
     <>

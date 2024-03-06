@@ -1,15 +1,14 @@
-
 .todo-list {
     padding: 8px;
-    background-color: #ddd;
+    padding-bottom: 50px;
     background-color: var(--bgColorMain);
-
 }
 
 .todo-list .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 1px;
     border-bottom: 1px solid var(--darkColor);
 }
 
@@ -17,14 +16,13 @@
     width: max-content;
     font-size: 18px;
     color: var(--darkColor);
-    /* border-bottom: 1px solid var(--darkColor); */
 }
 
 .todo-list select {
     border-color: navy;
     background: #fff;
     border-radius: 5px;
-    
+    border: 1px solid navy;
 }
 
 .todo-list .todo-content {
@@ -33,10 +31,8 @@
     grid-template-rows: auto;
     row-gap: 0.5rem;
     margin-block: 8px;
-    /* background-color: #faa; */
     color: var(--darkColor);
 }
-
 
 .todo-list .todo-content .todo-item {
     display: grid;
@@ -78,4 +74,9 @@
 
 .todo-list .todo-content .todo-item.done {
     background-color: #aaa;
+}
+
+.todo-list .todo-content .controller i:hover {
+    cursor: pointer;
+    color: #2d2df7;
 }

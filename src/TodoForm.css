@@ -1,10 +1,6 @@
-
-
 .todo-container .adding {
     display: grid;
-    
     row-gap: 10px;
-    /* padding: 20px 30px; */
     padding-block: 20px;
     background-color: var(--bgColorMain);
 }
@@ -12,15 +8,15 @@
 .todo-container input {
     width: 100%;
     font-size: 16px;
-    border-radius: 9px;
+    border-radius: 5px;
     border: 1px solid var(--darkColor);
     padding: 2px 4px;
 }
 
 .todo-container button {
     background-color: var(--darkColor);
-    border: 1px solid var(--bgColorMain);
-    border-radius: 9px;
+    border: 1px solid var(--darkColor);
+    border-radius: 5px;
     color: var(--lightMainColor);
     padding: 2px 8px;
     font-size: 14px;
